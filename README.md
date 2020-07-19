@@ -54,7 +54,7 @@ Just follow the easy "Usage" instructions below to use the program.  After succe
 3. Click the Step 2 button to apply the changes to your computer.
 
 ### Source Build:
-1. GNU/Linux users: Easiest way is to open the pro file with QtCreator and run the build.  Be sure to set the build to 'release' so you your binary will be smaller.  This will auto build a shared library binary, so you only need the file 'timer' and put it anywhere on your system.  You'll probably be happiest if it's in your ~/bin directory.
+1. TODO
 
 ### Development:
 Feature's are complete for the most part.  All items on the TODO list are commented in the widget.cpp file.
