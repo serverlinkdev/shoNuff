@@ -34,8 +34,9 @@ This is a brain to paper release and will be under heavy development.
 
 Just follow the easy "Usage" instructions below to use the program.  After successfully using the program you can now:
 
-1. paste a ut2004:// in the address bar of your favorite browser and it will launch Unreal Tournament 2004 and proceed to launch that game server.
-2. paste a ut2004:// in the run dialog of Windows and it will launch Unreal Tournament 2004 and proceed to launch that game server.
+1. click a link in a web browser that uses the ut2004:// and it will launch the Unreal Tournament 2004 and proceed to launch that game server
+2. paste a ut2004:// in the address bar of your favorite browser and it will launch Unreal Tournament 2004 and proceed to launch that game server.
+3. paste a ut2004:// in the run dialog of Windows and it will launch Unreal Tournament 2004 and proceed to launch that game server.
 
 
 ## Installation:
