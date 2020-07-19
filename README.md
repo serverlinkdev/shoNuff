@@ -14,6 +14,14 @@ With Sho'Nuff you are able to add the ut2004:// protocol to your registry.
 
 The current released version is 0.0.1-Alpha.
 
+This is a brain to paper release and will be under heavy development.  
+
+# Only early adopters that understand and know how to undo changes by this application should use this program at this time.
+
+
+
+
+
 
 ## Features:
 + Respects your Freedom a.k.a. GPL V 3.0 licensed - True "open source" software with *NO* hidden gotchas!
