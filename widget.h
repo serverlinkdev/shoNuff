@@ -27,5 +27,6 @@ private:
     bool isFileAnExecutable(QString & someFile);
     bool confirmWriteChanges(QString & someFile);
     bool confirmChangesMade(const QString & fullCommand);
+    bool writeProtocolkey();
 };
 #endif // WIDGET_H

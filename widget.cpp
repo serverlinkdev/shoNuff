@@ -26,34 +26,39 @@ Widget::~Widget()
 void Widget::on_pbModifyRegistry_clicked()
 {
     if (!exists(ut2004ExePath)) return;
-    ui->pbModifyRegistry->setEnabled(false); // make user reselect file if they answered No
+    // make user reselect file if they answered No
+    ui->pbModifyRegistry->setEnabled(false);
     if (!confirmWriteChanges(ut2004ExePath)) return;
-    auto fullCommand = convertToNativeSeparators(ut2004ExePath) + " %1";
 
-//    QSettings protcolKey(
-//        "HKEY_CLASSES_ROOT\\ut2004", QSettings::NativeFormat);
 
-//    protcolKey.setValue(".", "URL:ut2004 Protocol");
-//    protcolKey.setValue("URL Protocol", "");
+    if (!writeProtocolkey())
+    {
+        //todo report fail could not wright correctly to registry
+    }
 
 //    QSettings commandKey(
-//        "HKEY_CLASSES_ROOT\\ut2004\\shell\\open\\command", QSettings::NativeFormat);
+//        "HKEY_CLASSES_ROOT\\ut2004\\shell\\open\\command",
+//        QSettings::NativeFormat);
 
+//    auto fullCommand = convertToNativeSeparators(ut2004ExePath) + " %1";
 //    commandKey.setValue(".", fullCommand);
-    if (confirmChangesMade(fullCommand))
-    {
-        QMessageBox::information(
-                    nullptr,
-                    "Success",
-                    "All done! Your changes were made successfully!");
-    }
-    else
-    {
-        QMessageBox::critical(
-                    nullptr,
-                    "Fail",
-                    "Changes to registry not successful!");
-    }
+
+
+
+//    if (confirmChangesMade(fullCommand))
+//    {
+//        QMessageBox::information(
+//                    nullptr,
+//                    "Success",
+//                    "All done! Your changes were made successfully!");
+//    }
+//    else
+//    {
+//        QMessageBox::critical(
+//                    nullptr,
+//                    "Fail",
+//                    "Changes to registry not successful!");
+//    }
 }
 
 void Widget::on_pbFind2k4Exe_clicked()
@@ -123,7 +128,44 @@ bool Widget::confirmChangesMade(const QString &fullCommand)
     QSettings commandKey(
         "HKEY_CLASSES_ROOT\\ut2004\\shell\\open\\command", QSettings::NativeFormat);
 
-    auto commandKeyValaue = commandKey.value(".",fullCommand);
-    return (commandKeyValaue.toString() == fullCommand) ? true : false;
+    auto commandKeyValue = commandKey.value(".",fullCommand);
+    return (commandKeyValue.toString() == fullCommand) ? true : false;
+}
+
+bool Widget::writeProtocolkey()
+{
+// Create the keys first:
+    QSettings protocolKey("HKEY_CLASSES_ROOT\\ut2004", QSettings::NativeFormat);
+
+    QString data = "URL:ut2004 Protocol";
+    protocolKey.setValue(".", data);
+
+    auto name = "URL Protocol";
+    protocolKey.setValue(name, "");
+
+// Tests: 1st check for HKEY_CLASSES_ROOT\\ut2004
+    QSettings settings("HKEY_CLASSES_ROOT\\", QSettings::NativeFormat);
+
+    if (settings.childGroups().contains("ut2004", Qt::CaseSensitive))
+    {
+// Tests: now check for each of the two string values we set above:
+
+        QSettings testBed("HKEY_CLASSES_ROOT\\ut2004", QSettings::NativeFormat);
+
+        if (!testBed.contains("Default")) return false; // URL:ut2004 Protocol
+
+        auto var = testBed.value("Default").toString(); // URL:ut2004 Protocol
+        if (var != data) return false;
+
+        if (!testBed.contains("URL Protocol")) return false;
+        qDebug().noquote() << "success! " << Q_FUNC_INFO;
+        return true;
+    }
+    else
+    {
+        qDebug().noquote() << "The HKEY_CLASSES_ROOT\\ut2004 key was not created!";
+        return false;
+    }
+    return false;
 }
 
