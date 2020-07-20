@@ -52,7 +52,7 @@ void Widget::on_pbFind2k4Exe_clicked()
     if (ut2004ExePath.length() == 0) return; // user cancelled
     if (!isFileAnExecutable(ut2004ExePath)) return; // wrong file type by user
 
-    ui->pbModifyRegistry->setDisabled(false);
+    ui->pbModifyRegistry->setDisabled(false); // allow user to press modify
 }
 
 bool Widget::exists(const QString &someFile)
@@ -123,14 +123,7 @@ bool Widget::confirmChangesMade(const QString &fullCommand)
         if (!testBed.contains("Default")) return false;
 
         auto var = testBed.value("Default").toString(); // path to UT2004.exe
-        if (var != fullCommand)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return (var != fullCommand) ? false : true;
     }
     return false;
 }
@@ -146,7 +139,7 @@ void Widget::writeCommandKey()
 
 bool Widget::writeProtocolkey()
 {
-// Create the keys first:
+    // Create the keys first:
     QSettings protocolKey("HKEY_CLASSES_ROOT\\ut2004", QSettings::NativeFormat);
 
     QString data = "URL:ut2004 Protocol";
@@ -155,12 +148,12 @@ bool Widget::writeProtocolkey()
     auto name = "URL Protocol";
     protocolKey.setValue(name, "");
 
-// Tests: 1st check for HKEY_CLASSES_ROOT\\ut2004
+    // Tests: 1st check for HKEY_CLASSES_ROOT\\ut2004
     QSettings settings("HKEY_CLASSES_ROOT\\", QSettings::NativeFormat);
 
     if (settings.childGroups().contains("ut2004", Qt::CaseSensitive))
     {
-// Tests: now check for each of the two string values we set above:
+        // Tests: now check for each of the two string values we set above:
 
         QSettings testBed("HKEY_CLASSES_ROOT\\ut2004", QSettings::NativeFormat);
 
@@ -170,13 +163,7 @@ bool Widget::writeProtocolkey()
         if (var != data) return false;
 
         if (!testBed.contains("URL Protocol")) return false;
-        qDebug().noquote() << "success! " << Q_FUNC_INFO;
         return true;
-    }
-    else
-    {
-        qDebug().noquote() << "The HKEY_CLASSES_ROOT\\ut2004 key was not created!";
-        return false;
     }
     return false;
 }
