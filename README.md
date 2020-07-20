@@ -12,7 +12,7 @@ A simple application written in C++/Qt for the MS Windows Operating System, lice
 
 With Sho'Nuff you are able to add the ut2004:// protocol to your registry.
 
-The current released version is 0.0.2-Alpha.
+The current released version is 0.0.3-Alpha.
 
 This is will be under heavy development.
 
