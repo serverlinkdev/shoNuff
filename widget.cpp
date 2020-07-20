@@ -24,8 +24,6 @@ Widget::~Widget()
 // ut2004://66.150.121.29:7777?spectatorOnly=1
 void Widget::on_pbModifyRegistry_clicked()
 {
-    //#TODO disable this button if user has not selected a file yet
-
     //#TODO raise error
     if (!exists(ut2004ExePath)) return;
 
@@ -48,8 +46,12 @@ void Widget::on_pbModifyRegistry_clicked()
 
 void Widget::on_pbFind2k4Exe_clicked()
 {
-    ut2004ExePath = QFileDialog::getOpenFileName(this, "Find ut2004.exe", "/");
+    ut2004ExePath = QFileDialog::getOpenFileName(
+                this, "Find ut2004.exe", "/", "*.exe");
+
     if (ut2004ExePath.length() == 0) return; // user cancelled
+    if (!isFileAnExecutable(ut2004ExePath)) return; // wrong file type by user
+
     ui->pbModifyRegistry->setDisabled(false);
 }
 
@@ -63,5 +65,11 @@ QString Widget::convertToNativeSeparators(const QString &someFile)
 {
     auto x = QDir::toNativeSeparators(someFile);
     return ut2004ExePath = QString(x); // deep copy
+}
+
+bool Widget::isFileAnExecutable(QString &someFile)
+{
+    QFileInfo x(someFile);
+    return x.suffix()=="exe";
 }
 

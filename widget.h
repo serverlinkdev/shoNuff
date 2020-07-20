@@ -17,7 +17,6 @@ public:
 
 private slots:
     void on_pbModifyRegistry_clicked();
-
     void on_pbFind2k4Exe_clicked();
 
 private:
@@ -25,5 +24,6 @@ private:
     QString ut2004ExePath;
     bool exists(const QString & someFile);
     QString convertToNativeSeparators(const QString & someFile);
+    bool isFileAnExecutable(QString & someFile);
 };
 #endif // WIDGET_H
