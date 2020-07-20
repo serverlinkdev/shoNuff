@@ -28,5 +28,6 @@ private:
     bool confirmWriteChanges(QString & someFile);
     bool confirmChangesMade(const QString & fullCommand);
     bool writeProtocolkey();
+    void reportFail();
 };
 #endif // WIDGET_H

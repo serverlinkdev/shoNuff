@@ -30,35 +30,34 @@ void Widget::on_pbModifyRegistry_clicked()
     ui->pbModifyRegistry->setEnabled(false);
     if (!confirmWriteChanges(ut2004ExePath)) return;
 
-
+// Write protocolKey to the registry.  We wont fail if their is existing,
+// so as to allow them to modify the existing.
     if (!writeProtocolkey())
     {
-        //todo report fail could not wright correctly to registry
+        reportFail();
+        return;
     }
 
-//    QSettings commandKey(
-//        "HKEY_CLASSES_ROOT\\ut2004\\shell\\open\\command",
-//        QSettings::NativeFormat);
+// Write the users path to the registry:
+    QSettings commandKey(
+        "HKEY_CLASSES_ROOT\\ut2004\\shell\\open\\command",
+        QSettings::NativeFormat);
 
-//    auto fullCommand = convertToNativeSeparators(ut2004ExePath) + " %1";
-//    commandKey.setValue(".", fullCommand);
+    auto fullCommand = convertToNativeSeparators(ut2004ExePath) + " %1";
+    commandKey.setValue(".", fullCommand);
 
-
-
-//    if (confirmChangesMade(fullCommand))
-//    {
-//        QMessageBox::information(
-//                    nullptr,
-//                    "Success",
-//                    "All done! Your changes were made successfully!");
-//    }
-//    else
-//    {
-//        QMessageBox::critical(
-//                    nullptr,
-//                    "Fail",
-//                    "Changes to registry not successful!");
-//    }
+// Test that we really did it or not:
+    if (confirmChangesMade(fullCommand))
+    {
+        QMessageBox::information(
+                    nullptr,
+                    "Success",
+                    "All done! Your changes were made successfully!");
+    }
+    else
+    {
+        reportFail();
+    }
 }
 
 void Widget::on_pbFind2k4Exe_clicked()
@@ -125,11 +124,31 @@ bool Widget::confirmWriteChanges(QString &someFile)
 
 bool Widget::confirmChangesMade(const QString &fullCommand)
 {
-    QSettings commandKey(
-        "HKEY_CLASSES_ROOT\\ut2004\\shell\\open\\command", QSettings::NativeFormat);
+    // Tests: 1st check for HKEY_CLASSES_ROOT\\ut2004
+    QSettings settings(
+        "HKEY_CLASSES_ROOT\\ut2004\\shell\\open", QSettings::NativeFormat);
 
-    auto commandKeyValue = commandKey.value(".",fullCommand);
-    return (commandKeyValue.toString() == fullCommand) ? true : false;
+    if (settings.childGroups().contains("command", Qt::CaseSensitive))
+    {
+        // Tests: now check to see if the users path is really stored!
+
+        QSettings testBed(
+                    "HKEY_CLASSES_ROOT\\ut2004\\shell\\open\\command",
+                    QSettings::NativeFormat);
+
+        if (!testBed.contains("Default")) return false;
+
+        auto var = testBed.value("Default").toString(); // path to UT2004.exe
+        if (var != fullCommand)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Widget::writeProtocolkey()
@@ -167,5 +186,13 @@ bool Widget::writeProtocolkey()
         return false;
     }
     return false;
+}
+
+void Widget::reportFail()
+{
+    QMessageBox::critical(
+                nullptr,
+                "Fail",
+                "Changes to registry not successful!");
 }
 
