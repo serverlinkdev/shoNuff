@@ -11,6 +11,7 @@ Widget::Widget(QWidget *parent)
     , ut2004ExePath("")
 {
     ui->setupUi(this);
+    ui->pbModifyRegistry->setDisabled(true);
 }
 
 Widget::~Widget()
@@ -48,6 +49,8 @@ void Widget::on_pbModifyRegistry_clicked()
 void Widget::on_pbFind2k4Exe_clicked()
 {
     ut2004ExePath = QFileDialog::getOpenFileName(this, "Find ut2004.exe", "/");
+    if (ut2004ExePath.length() == 0) return; // user cancelled
+    ui->pbModifyRegistry->setDisabled(false);
 }
 
 bool Widget::exists(const QString &someFile)
