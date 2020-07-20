@@ -28,7 +28,7 @@ void Widget::on_pbModifyRegistry_clicked()
     if (!exists(ut2004ExePath)) return;
     ui->pbModifyRegistry->setEnabled(false); // make user reselect file if they answered No
     if (!confirmWriteChanges(ut2004ExePath)) return;
-//    auto fullCommand = convertToNativeSeparators(ut2004ExePath) + " %1";
+    auto fullCommand = convertToNativeSeparators(ut2004ExePath) + " %1";
 
 //    QSettings protcolKey(
 //        "HKEY_CLASSES_ROOT\\ut2004", QSettings::NativeFormat);
@@ -36,13 +36,24 @@ void Widget::on_pbModifyRegistry_clicked()
 //    protcolKey.setValue(".", "URL:ut2004 Protocol");
 //    protcolKey.setValue("URL Protocol", "");
 
-
 //    QSettings commandKey(
 //        "HKEY_CLASSES_ROOT\\ut2004\\shell\\open\\command", QSettings::NativeFormat);
 
 //    commandKey.setValue(".", fullCommand);
-    // #TODO verify written to reg
-    // #TODO show pop up that it's done
+    if (confirmChangesMade(fullCommand))
+    {
+        QMessageBox::information(
+                    nullptr,
+                    "Success",
+                    "All done! Your changes were made successfully!");
+    }
+    else
+    {
+        QMessageBox::critical(
+                    nullptr,
+                    "Fail",
+                    "Changes to registry not successful!");
+    }
 }
 
 void Widget::on_pbFind2k4Exe_clicked()
@@ -105,5 +116,14 @@ bool Widget::confirmWriteChanges(QString &someFile)
         return false;
     }
     return false;
+}
+
+bool Widget::confirmChangesMade(const QString &fullCommand)
+{
+    QSettings commandKey(
+        "HKEY_CLASSES_ROOT\\ut2004\\shell\\open\\command", QSettings::NativeFormat);
+
+    auto commandKeyValaue = commandKey.value(".",fullCommand);
+    return (commandKeyValaue.toString() == fullCommand) ? true : false;
 }
 
