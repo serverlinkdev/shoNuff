@@ -25,39 +25,23 @@ Widget::~Widget()
 // ut2004://66.150.121.29:7777?spectatorOnly=1
 void Widget::on_pbModifyRegistry_clicked()
 {
-    if (!exists(ut2004ExePath)) return;
-    // make user reselect file if they answered No
-    ui->pbModifyRegistry->setEnabled(false);
-    if (!confirmWriteChanges(ut2004ExePath)) return;
+    // perform some tests to be sure we have sane environment
+    inspect();
 
-// Write protocolKey to the registry.  We wont fail if their is existing,
-// so as to allow them to modify the existing.
+    // Write protocolKey to the registry.  We wont fail if their is existing,
+    // so as to allow them to modify the existing.
     if (!writeProtocolkey())
     {
         reportFail();
         return;
     }
 
-// Write the users path to the registry:
-    QSettings commandKey(
-        "HKEY_CLASSES_ROOT\\ut2004\\shell\\open\\command",
-        QSettings::NativeFormat);
+    // Write the users path to the registry:
+    fullCommand = convertToNativeSeparators(ut2004ExePath) + " %1";
+    writeCommandKey();
 
-    auto fullCommand = convertToNativeSeparators(ut2004ExePath) + " %1";
-    commandKey.setValue(".", fullCommand);
-
-// Test that we really did it or not:
-    if (confirmChangesMade(fullCommand))
-    {
-        QMessageBox::information(
-                    nullptr,
-                    "Success",
-                    "All done! Your changes were made successfully!");
-    }
-    else
-    {
-        reportFail();
-    }
+    // Test that we really did it or not and report it to user:
+    report();
 }
 
 void Widget::on_pbFind2k4Exe_clicked()
@@ -151,6 +135,15 @@ bool Widget::confirmChangesMade(const QString &fullCommand)
     return false;
 }
 
+void Widget::writeCommandKey()
+{
+    QSettings commandKey(
+        "HKEY_CLASSES_ROOT\\ut2004\\shell\\open\\command",
+        QSettings::NativeFormat);
+
+    commandKey.setValue(".", fullCommand);
+}
+
 bool Widget::writeProtocolkey()
 {
 // Create the keys first:
@@ -194,5 +187,28 @@ void Widget::reportFail()
                 nullptr,
                 "Fail",
                 "Changes to registry not successful!");
+}
+
+void Widget::inspect()
+{
+    if (!exists(ut2004ExePath)) return;
+    // make user reselect file if they answered No
+    ui->pbModifyRegistry->setEnabled(false);
+    if (!confirmWriteChanges(ut2004ExePath)) return;
+}
+
+void Widget::report()
+{
+    if (confirmChangesMade(fullCommand))
+    {
+        QMessageBox::information(
+                    nullptr,
+                    "Success",
+                    "All done! Your changes were made successfully!");
+    }
+    else
+    {
+        reportFail();
+    }
 }
 

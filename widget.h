@@ -22,12 +22,16 @@ private slots:
 private:
     Ui::Widget *ui;
     QString ut2004ExePath;
+    QString fullCommand;
     bool exists(const QString & someFile);
     QString convertToNativeSeparators(const QString & someFile);
     bool isFileAnExecutable(QString & someFile);
     bool confirmWriteChanges(QString & someFile);
     bool confirmChangesMade(const QString & fullCommand);
+    void writeCommandKey();
     bool writeProtocolkey();
     void reportFail();
+    void inspect();
+    void report();
 };
 #endif // WIDGET_H
