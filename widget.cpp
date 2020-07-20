@@ -26,6 +26,7 @@ Widget::~Widget()
 void Widget::on_pbModifyRegistry_clicked()
 {
     if (!exists(ut2004ExePath)) return;
+    ui->pbModifyRegistry->setEnabled(false); // make user reselect file if they answered No
     if (!confirmWriteChanges(ut2004ExePath)) return;
 //    auto fullCommand = convertToNativeSeparators(ut2004ExePath) + " %1";
 
@@ -76,11 +77,26 @@ bool Widget::isFileAnExecutable(QString &someFile)
 bool Widget::confirmWriteChanges(QString &someFile)
 {
     QMessageBox msgBox;
-    msgBox.setText("Modify changes to registry?\n");
-    msgBox.setInformativeText("This cannot be undone.");
+    msgBox.setWindowTitle("Modify the Windows Registry?");
+    msgBox.setText("Your chose the following as your UT2004 launcher:");
+    msgBox.setInformativeText(convertToNativeSeparators(someFile) +
+                              "\n\nAdd this info to the registry?\n\n"
+                              "This cannot be undone.");
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
+
+    // This is a *trick* so we can get the msgBox to resize so as to display
+    // the user selected path on one row only and does not word wrap which
+    // will confuse user's otherwise.
+    QSpacerItem* horizontalSpacer =
+        new QSpacerItem(500, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+    QGridLayout* layout = (QGridLayout*)msgBox.layout();
+    layout->addItem(
+        horizontalSpacer, layout->rowCount(), 0, 1, layout->columnCount());
+
     int answer = msgBox.exec();
+
     switch (answer)
     {
     case QMessageBox::Yes:
