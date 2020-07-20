@@ -25,5 +25,6 @@ private:
     bool exists(const QString & someFile);
     QString convertToNativeSeparators(const QString & someFile);
     bool isFileAnExecutable(QString & someFile);
+    bool confirmWriteChanges(QString & someFile);
 };
 #endif // WIDGET_H

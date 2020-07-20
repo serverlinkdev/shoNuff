@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QFileInfo>
+#include <QMessageBox>
 #include <QSettings>
 
 Widget::Widget(QWidget *parent)
@@ -24,22 +25,21 @@ Widget::~Widget()
 // ut2004://66.150.121.29:7777?spectatorOnly=1
 void Widget::on_pbModifyRegistry_clicked()
 {
-    //#TODO raise error
     if (!exists(ut2004ExePath)) return;
+    if (!confirmWriteChanges(ut2004ExePath)) return;
+//    auto fullCommand = convertToNativeSeparators(ut2004ExePath) + " %1";
 
-    auto fullCommand = convertToNativeSeparators(ut2004ExePath) + " %1";
+//    QSettings protcolKey(
+//        "HKEY_CLASSES_ROOT\\ut2004", QSettings::NativeFormat);
 
-    QSettings protcolKey(
-        "HKEY_CLASSES_ROOT\\ut2004", QSettings::NativeFormat);
-
-    protcolKey.setValue(".", "URL:ut2004 Protocol");
-    protcolKey.setValue("URL Protocol", "");
+//    protcolKey.setValue(".", "URL:ut2004 Protocol");
+//    protcolKey.setValue("URL Protocol", "");
 
 
-    QSettings commandKey(
-        "HKEY_CLASSES_ROOT\\ut2004\\shell\\open\\command", QSettings::NativeFormat);
+//    QSettings commandKey(
+//        "HKEY_CLASSES_ROOT\\ut2004\\shell\\open\\command", QSettings::NativeFormat);
 
-    commandKey.setValue(".", fullCommand);
+//    commandKey.setValue(".", fullCommand);
     // #TODO verify written to reg
     // #TODO show pop up that it's done
 }
@@ -71,5 +71,23 @@ bool Widget::isFileAnExecutable(QString &someFile)
 {
     QFileInfo x(someFile);
     return x.suffix()=="exe";
+}
+
+bool Widget::confirmWriteChanges(QString &someFile)
+{
+    QMessageBox msgBox;
+    msgBox.setText("Modify changes to registry?\n");
+    msgBox.setInformativeText("This cannot be undone.");
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::No);
+    int answer = msgBox.exec();
+    switch (answer)
+    {
+    case QMessageBox::Yes:
+        return true;
+    case QMessageBox::No:
+        return false;
+    }
+    return false;
 }
 
