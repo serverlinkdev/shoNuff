@@ -21,6 +21,7 @@ private slots:
 
 private:
     Ui::Widget *ui;
+    void setCssStyleSheet();
     QString ut2004ExePath;
     QString fullCommand;
     bool exists(const QString & someFile);

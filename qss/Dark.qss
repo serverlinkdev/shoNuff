@@ -1,6 +1,9 @@
 QMainWindow{
     background-color: #36393F;} /* search replace all */
 
+QWidget{
+    background-color: #36393F;} /* search replace all */
+
 QLabel{
     color:white;}
 

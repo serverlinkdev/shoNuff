@@ -12,7 +12,7 @@ Widget::Widget(QWidget *parent)
     , ut2004ExePath("")
 {
     ui->setupUi(this);
-
+    setCssStyleSheet();
     auto icon = ":/images/shoNuff.png";
     setWindowIcon(QIcon(icon));
 
@@ -29,6 +29,10 @@ Widget::~Widget()
 // ut2004://66.150.121.29:7777?spectatorOnly=1
 void Widget::on_pbModifyRegistry_clicked()
 {
+    // NOTE: if a 'normal' user runs this, and the values
+    // they choose is the same as existing in registry
+    // this App says changes made successfully.
+
     // perform some tests to be sure we have sane environment
     inspect();
 
@@ -57,6 +61,38 @@ void Widget::on_pbFind2k4Exe_clicked()
     if (!isFileAnExecutable(ut2004ExePath)) return; // wrong file type by user
 
     ui->pbModifyRegistry->setDisabled(false); // allow user to press modify
+}
+
+void Widget::setCssStyleSheet()
+{
+     QFile file(":/qss/Dark.qss");
+    file.open(QFile::ReadOnly);
+    auto sheet = QString::fromLatin1(file.readAll());
+
+    // On GNU/Linux Qt's font detection *AND* inheritance is broken
+    // let's take a hammer to it (Qt 5.14 and up is fine, btw).
+    // TODO in 2025 do we still need this? Has GNU ecosystem progressed
+    // that we don't need this?
+//    auto font = property("font").value<QFont>();
+//    auto size = font.pointSize();
+//    auto fontSize = QString::number(size,10);
+//    auto unit = "pt";
+//    auto fontFamily = font.family();
+//#ifdef WIN32
+//    // windows uses really small fonts by default
+//    fontSize = "18";
+//    unit = "px"; // px for Windows fonts not jagged this way
+//    // Win10 users who edit their registry to get custom fonts the old
+//    // pre-Win10 way which MS hides now but works with 'advchange' app
+//    fontFamily = getWindowsFontFamily();
+//#endif
+
+//    auto prepend = "* {font-family: " + fontFamily + ";"
+//                   "font-size: " + fontSize + unit + ";}";
+
+//    auto cssStyleSheet = prepend + sheet;
+
+    qApp->setStyleSheet(sheet);
 }
 
 bool Widget::exists(const QString &someFile)
