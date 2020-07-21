@@ -59,7 +59,7 @@ void Widget::on_pbFind2k4Exe_clicked()
     ut2004ExePath =
         QFileDialog::getOpenFileName(
             this,
-            "Find ut2004.exe",
+            "Find UT2004.exe",
             "/",
             "*.exe",
             0,
