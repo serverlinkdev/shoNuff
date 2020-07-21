@@ -1,5 +1,5 @@
 # Sho'Nuff!
-![](images.md/screenshot.jpg)
+![](images.md/shoNuff.gif)
 
 ![](images.md/registry-01.jpg)
 
@@ -8,11 +8,11 @@
 ![](images.md/run-dialog.jpg)
 
 
-A simple application written in C++/Qt for the MS Windows Operating System, licensed under the GPL V 3.0.  
+An elegant solution written in C++/Qt for the MS Windows Operating System, licensed under the GPL V 3.0.  
 
 With Sho'Nuff you are able to add the ut2004:// protocol to your registry.
 
-The current released version is 0.0.3-Alpha.
+The current released version is 0.1.0-Beta.
 
 This is will be under heavy development.
 
@@ -50,7 +50,7 @@ Just follow the easy "Usage" instructions below to use the program.  After succe
 
 ## Using The Program
 1. Right click shonuff.exe and select run as Administrator to run the program.
-2. Click the Step 1 button and then navigate your computer and select the ut2004.exe
+2. Click the Step 1 button and then navigate your computer and select the UT2004.exe
 3. Click the Step 2 button to apply the changes to your computer.
 
 ### Source Build:
