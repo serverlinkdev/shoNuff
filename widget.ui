@@ -47,6 +47,9 @@
          <pointsize>20</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QLabel{color: gold}</string>
+       </property>
        <property name="text">
         <string>ShoNuff</string>
        </property>
@@ -93,7 +96,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Step 1 : Browse for ut2004.exe</string>
+        <string>Step 1 : Browse for UT2004.exe</string>
        </property>
       </widget>
      </item>
