@@ -15,7 +15,6 @@ Widget::Widget(QWidget *parent)
     setCssStyleSheet();
     auto icon = ":/images/shoNuff.png";
     setWindowIcon(QIcon(icon));
-
     ui->pbModifyRegistry->setDisabled(true);
 }
 
