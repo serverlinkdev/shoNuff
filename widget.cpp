@@ -90,12 +90,12 @@ bool Widget::exists(const QString &someFile)
     return ((fileInfo.exists() && fileInfo.isFile()));
 }
 
-void Widget::inspect()
+bool Widget::isOkToProceed()
 {
-    if (!exists(ut2004ExePath)) return;
+    if (!exists(ut2004ExePath)) return false;
     // make user reselect file if they answered No
     ui->pbModifyRegistry->setEnabled(false);
-    if (!confirmWriteChanges(ut2004ExePath)) return;
+    return (confirmWriteChanges(ut2004ExePath));
 }
 
 bool Widget::isFileAnExecutable(QString &someFile)
@@ -132,7 +132,7 @@ void Widget::on_pbModifyRegistry_clicked()
     // this App says changes made successfully.
 
     // perform some tests to be sure we have sane environment
-    inspect();
+    if (!isOkToProceed()) return;
 
     // Write protocolKey to the registry.  We wont fail if there is existing,
     // so as to allow them to modify the existing.

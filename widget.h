@@ -28,7 +28,7 @@ private:
     bool confirmWriteChanges(QString & someFile);
     QString convertToNativeSeparators(const QString & someFile);
     QString fullCommand;
-    void inspect();
+    bool isOkToProceed();
     bool isFileAnExecutable(QString & someFile);
     void report();
     void reportFail();
