@@ -1,0 +1,77 @@
+QMainWindow{
+    background-color: #36393F;} /* search replace all */
+
+QLabel{
+    color:white;}
+
+QLineEdit{
+    background-color:#211f1d; /* search replace all */
+    color: white;
+    border-radius: 3px;
+    padding: 3px;
+    selection-background-color: #36393f; /* probable replace */
+    selection-color: white;}
+
+QTextEdit{
+    color:white;
+    background-color:#211f1d;
+    border-radius: 3px;
+    padding: 3px;
+    selection-background-color: #36393f; /* probable replace */
+    selection-color: white;}
+
+QPushButton{
+    color:white;
+    background-color: #211f1d;
+    border-radius: 10px;}
+
+/* Tray theming is diff in 5.12 & 5.14 ; we'll set the tray manualy */
+/* so it will behave the same in both versions.  Next 3 for tray */
+QMenu {
+    background-color: #36393F;
+    color: white;}
+
+/* this is mouse over colors for the context menu */
+QMenu::item:selected {
+    background-color: #211f1d;} /* probable replace */
+
+/* this is colors when an item is disabled */
+QMenu::item::disabled {
+    background-color: #36393F;
+    color: #858A96;}
+
+QMessageBox {
+    background-color: #36393F;}
+
+QMessageBox, QPushButton {
+    background-color: #211f1d;
+    border: none;
+    border-radius: 10px;
+    padding: 8px;
+    color: white;}
+
+QMessageBox, QPushButton:hover{
+    background: green;}
+
+/* this must be declared *AFTER* QMessageBox or it won't work */
+QDialog {
+    background-color: #36393F;}
+
+QDialog, QLabel{
+    background-color: #36393F;}
+
+QDialog, QPushButton:focus{
+    outline: 1px;}
+
+QTooltip{
+    background-color: green;}
+
+QFileDialog QWidget {
+    background-color: #36393F;
+    color: white;}
+
+QComboBox, QListView {
+    background-color: #36393F;
+    color: white;
+    selection-color: white;
+    selection-background-color: #211f1d;}

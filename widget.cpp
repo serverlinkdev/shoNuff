@@ -12,6 +12,10 @@ Widget::Widget(QWidget *parent)
     , ut2004ExePath("")
 {
     ui->setupUi(this);
+
+    auto icon = ":/images/shoNuff.png";
+    setWindowIcon(QIcon(icon));
+
     ui->pbModifyRegistry->setDisabled(true);
 }
 

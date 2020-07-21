@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/shoNuff.png</file>
+        <file>qss/Dark.qss</file>
+    </qresource>
+</RCC>
