@@ -54,8 +54,16 @@ void Widget::on_pbModifyRegistry_clicked()
 
 void Widget::on_pbFind2k4Exe_clicked()
 {
-    ut2004ExePath = QFileDialog::getOpenFileName(
-                this, "Find ut2004.exe", "/", "*.exe");
+    // strip last two param's of the method call to use
+    // native windows file selector dialog box
+    ut2004ExePath =
+        QFileDialog::getOpenFileName(
+            this,
+            "Find ut2004.exe",
+            "/",
+            "*.exe",
+            0,
+            QFileDialog::DontUseNativeDialog);
 
     if (ut2004ExePath.length() == 0) return; // user cancelled
     if (!isFileAnExecutable(ut2004ExePath)) return; // wrong file type by user
