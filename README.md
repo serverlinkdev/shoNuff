@@ -53,6 +53,12 @@ Just follow the easy "Usage" instructions below to use the program.  After succe
 2. Click the Step 1 button and then navigate your computer and select the UT2004.exe
 3. Click the Step 2 button to apply the changes to your computer.
 
+## Verify it worked
+1. The program should create or modify the following registry key:
+HKEY_CLASSES_ROOT\ut2004\shell\open\command
+With Name: (Default)
+With Value: /path/to/UT2004.exe %1
+
 ### Source Build:
 1. TODO
 
