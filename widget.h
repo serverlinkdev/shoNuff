@@ -16,23 +16,24 @@ public:
     ~Widget();
 
 private slots:
-    void on_pbModifyRegistry_clicked();
     void on_pbFind2k4Exe_clicked();
+    void on_pbModifyRegistry_clicked();
 
 private:
     Ui::Widget *ui;
-    void setCssStyleSheet();
     QString ut2004ExePath;
-    QString fullCommand;
+
     bool exists(const QString & someFile);
-    QString convertToNativeSeparators(const QString & someFile);
-    bool isFileAnExecutable(QString & someFile);
-    bool confirmWriteChanges(QString & someFile);
     bool confirmChangesMade(const QString & fullCommand);
+    bool confirmWriteChanges(QString & someFile);
+    QString convertToNativeSeparators(const QString & someFile);
+    QString fullCommand;
+    void inspect();
+    bool isFileAnExecutable(QString & someFile);
+    void report();
+    void reportFail();
+    void setCssStyleSheet();
     void writeCommandKey();
     bool writeProtocolkey();
-    void reportFail();
-    void inspect();
-    void report();
 };
 #endif // WIDGET_H
