@@ -10,7 +10,9 @@
 
 An elegant solution written in C++/Qt for the MS Windows Operating System, licensed under the GPL V 3.0.  
 
-With Sho'Nuff you are able to add the ut2004:// protocol to your registry.
+With Sho'Nuff you are able to add the ut2004:// protocol to your registry.  This will allow you to click on links in webpages or other applications in windows that begin with ut2004:// (instead of the usual http://) and it will launch your game and take you to that particular game server! :)
+
+For instructions to achieve this same goal on gnu/Linux please see below.
 
 The current released version is 0.1.0-Beta.
 
@@ -65,6 +67,50 @@ With Value: /path/to/UT2004.exe %1
 ### Development:
 Feature's are complete for the most part.  All items on the TODO list are mostly completed.  Please test and report.
 
+### GNU/Linux:
+To be able to click a ut2004:// url and launch your game please perform the below:
+
+Create the following file:
+
+```
+sudo nano /usr/share/applications/ut2004-handler.desktop
+```
+
+Edit the below text block where I indicate.
+
+Remove everything from the ```# <----- User..``` to the right as well !
+
+That is a comment only you don't need that in your file.
+
+Paste the following contents into your nano session and edit it:
+
+```
+[Desktop Entry]
+Name=UT2004 URL Handler
+GenericName=UT2004 URL Handler
+Comment=Handle URL Scheme ut2004://
+Exec=/home/username/bin/ut2004.sh %u # <------- User must modify to the path to their binary
+Terminal=false
+Type=Application
+MimeType=x-scheme-handler/ut2004;
+Icon=applications-games
+Categories=Game;
+Name[en_US]=UT2004 URL Handler
+```
+
+Now hit : ```control key``` and the ```letter o``` key to write the file.
+
+Now hit : ```control key``` and the ```letter x``` key to exit the nano text editor
+
+Then we must update our system's global mime type database with:
+
+```
+sudo update-desktop-database
+```
+
+I would recommend a reboot for the following reason:  Many desktop sessions
+such as gnome, kde, might not re-read the database after you ran the above
+update-desktop-database command.  But they do when you first log in for sure.
 
 ## To verify the release signature:
 
