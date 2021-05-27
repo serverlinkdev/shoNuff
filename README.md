@@ -7,6 +7,7 @@
 
 ![](images.md/run-dialog.jpg)
 
+For support, you can join my discord channel at https://discord.gg/XZUrutUEpn
 
 An elegant solution written in C++/Qt for the MS Windows Operating System, licensed under the GPL V 3.0.  
 
